@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>你被骗了</title>
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(120deg, #a18cd1 0%, #fbc2eb 100%);
+            font-family: 'Montserrat', 'ZCOOL KuaiLe', 'Segoe UI', 'Arial', sans-serif;
+            overflow: hidden;
+        }
+        .main {
+            background: rgba(255,255,255,0.98);
+            padding: 100px 160px 100px 160px;
+            border-radius: 32px;
+            box-shadow: 0 12px 48px 0 rgba(161,140,209,0.18);
+            text-align: center;
+            position: relative;
+            animation: popIn 0.8s cubic-bezier(.68,-0.55,.27,1.55);
+            min-width: 420px;
+            max-width: 95vw;
+            transition: box-shadow 0.3s;
+        }
+        .main:hover {
+            box-shadow: 0 20px 64px 0 rgba(161,140,209,0.28);
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.7); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .emoji {
+            font-size: 5em;
+            margin-bottom: 28px;
+            animation: bounce 1.2s infinite alternate;
+            filter: drop-shadow(0 4px 12px #fbc2eb88);
+        }
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-18px); }
+        }
+        .number {
+            font-size: 4em;
+            font-weight: bold;
+            color: #c82333;
+            font-family: 'Montserrat', 'ZCOOL KuaiLe', cursive;
+            letter-spacing: 2px;
+            display: inline-block;
+            transition: transform 0.3s cubic-bezier(.68,-0.55,.27,1.55), color 0.3s;
+            text-shadow: 0 2px 8px #fbc2eb55;
+        }
+        .number.animated {
+            transform: scale(1.25) rotate(-8deg);
+            color: #a18cd1;
+        }
+        .tip {
+            margin-top: 40px;
+            font-size: 1.5em;
+            color: #b71c1c;
+            background: linear-gradient(90deg, #fbc2eb 0%, #a18cd1 100%);
+            border-radius: 18px;
+            padding: 18px 32px;
+            box-shadow: 0 2px 12px #a18cd133;
+            font-family: 'ZCOOL KuaiLe', 'Montserrat', Arial, sans-serif;
+            opacity: 0;
+            animation: fadeIn 1s 0.2s forwards;
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="main" id="main">
+        <div class="emoji">🤡</div>
+        <div style="margin-bottom: 10px; font-size: 1.3em; color: #222; letter-spacing: 1px;">你是第 <span class="number" id="count">1</span> 个被骗的！</div>
+    </div>
+    <script>
+        // 使用localStorage模拟计数（每台设备独立）
+        let count = localStorage.getItem('cheated_count');
+        if (!count) {
+            count = 1;
+        } else {
+            count = parseInt(count) + 1;
+        }
+        localStorage.setItem('cheated_count', count);
+        const countEl = document.getElementById('count');
+        countEl.textContent = count;
+        // 数字动画效果
+        countEl.classList.add('animated');
+        setTimeout(() => countEl.classList.remove('animated'), 600);
+        // 5秒后跳转到提示页面
+        setTimeout(function() {
+            document.body.innerHTML = `<div style=\"display:flex;align-items:center;justify-content:center;height:100vh;background:linear-gradient(120deg,#a18cd1 0%,#fbc2eb 100%);\"><div class='tip'>别随便扫陌生人的二维码，小心上当哦！</div></div>`;
+        }, 5000);
+    </script>
+</body>
+</html>
